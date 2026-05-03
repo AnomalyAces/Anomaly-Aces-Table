@@ -69,6 +69,13 @@ func set_data(dataArr:Array):
 		rowScene.initializeRow(plugin, config, rowScene, dataArr[dataIdx])
 		rowScene.row_selected.connect(_on_row_selected)
 		_table_data.append(rowScene.data)
+		if dataArr[dataIdx].has("selected") and dataArr[dataIdx]["selected"] == true:
+			rowScene._table_update_selection(true)
+			AceLog.printLog(["Row %s marked as selected based on input data." % [rowScene.name]], AceLog.LOG_LEVEL.DEBUG)
+			AceLog.printLog(["Row data for selected row: %s" % [dataArr[dataIdx]]], AceLog.LOG_LEVEL.DEBUG)
+			AceLog.printLog(["---------------------------------------------"], AceLog.LOG_LEVEL.DEBUG)
+			# Emit signal for initial selection state
+			_on_row_selected(rowScene.data)
 		_rowContainer.add_child(rowScene)
 
 	_sorted_table_data = _table_data.duplicate()
